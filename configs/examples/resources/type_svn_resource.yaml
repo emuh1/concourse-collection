@@ -1,0 +1,6 @@
+resource_types:
+- name: svn-resource
+  type: docker-image
+  source:
+    repository: emuh1/concourse-svn-resource
+    tag: alpha

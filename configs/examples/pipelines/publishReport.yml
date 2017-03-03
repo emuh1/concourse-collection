@@ -1,0 +1,9 @@
+platform: linux
+image: "docker:///node#4.2.3"
+inputs:
+  - name: test-report
+    path: .
+run:
+  # your publish task goes here. for this example I just print the report out
+  path: cat
+  args: [report.txt]
