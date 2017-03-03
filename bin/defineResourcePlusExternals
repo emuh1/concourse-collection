@@ -1,0 +1,30 @@
+#!/bin/bash
+
+. "${0%/*}/include.sh"
+
+_NAME="$1"
+_TYPE="$2"
+_URI="$3"
+
+[[ -z "${_NAME}" ]] && Exit_error "no name given"
+[[ -z "${_TYPE}" ]] && Exit_error "no type given"
+[[ -z "${_URI}" ]] && Exit_error "no uri given"
+
+_BASENAME="${_NAME%-source}"
+[[ "${_BASENAME}" == "${_NAME}" ]] && Exit_error "name '${_NAME}' does not end with '-source'"
+
+case "${_TYPE}" in
+    'svn')
+        ${0%/*}/defineResource "${_NAME}" "${_TYPE}" "${_URI}"
+        for _DEF in $(Svn_getNormalizedExternalDef "${_URI}")
+        do
+            _EXTERNAL_RESOURCE_NAME="${_BASENAME}-${_DEF%,*}-source"
+            _EXTERNAL_RESOURCE_URI="${_DEF#*,}"
+            
+            ${0%/*}/defineResource "${_EXTERNAL_RESOURCE_NAME}" "${_TYPE}" "${_EXTERNAL_RESOURCE_URI}"
+        done
+        ;;
+    *)
+        Exit_error "unsupported type '${_TYPE}' given"
+        ;;
+esac

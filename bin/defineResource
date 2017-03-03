@@ -1,0 +1,20 @@
+#!/bin/bash
+
+. "${0%/*}/include.sh"
+
+_NAME="$1"
+_TYPE="$2"
+_URI="$3"
+
+[[ -z "${_NAME}" ]] && Exit_error "no name given"
+[[ -z "${_TYPE}" ]] && Exit_error "no type given"
+[[ -z "${_URI}" ]] && Exit_error "no uri given"
+
+printf "%-15s %-60s %-10s %s\n" 'resource' "${_NAME}" "${_TYPE}" "${_URI}"
+#cat << EOF
+#- name: ${_NAME}
+#  type: ${_TYPE}
+#  source:
+#    uri: ${_URI}
+#EOF
+
